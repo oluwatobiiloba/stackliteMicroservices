@@ -19,22 +19,13 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
-    @Order(Ordered.HIGHEST_PRECEDENCE)
-    @Bean
-    public SecurityWebFilterChain noFilterChain(ServerHttpSecurity http) {
-        http.csrf(ServerHttpSecurity.CsrfSpec::disable);
-        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/eureka/**"))
-                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
-                        .anyExchange().permitAll());
-        System.out.println("In here testing");
-        return http.build();
-    }
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable);
-
-        System.out.println("In springSecurityFilterChain testing");
+        http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/eureka/**"))
+                .authorizeExchange(authorizeExchangeSpec -> authorizeExchangeSpec
+                        .anyExchange().permitAll());
         http.authorizeExchange(exchange -> exchange
                         .anyExchange()
                         .authenticated()

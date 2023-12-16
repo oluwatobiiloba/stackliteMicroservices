@@ -70,6 +70,18 @@ public class QuestionService {
         return null;
     }
 
+    public QuestionsDTO getQuestionById(String id){
+        try{
+            Optional<Question> question = questionRepo.findById(id);
+            if(question.isPresent()){
+                return QuestionsMapper.mapToQuestionDto(question.get());
+            }
+        }catch (Exception ignored){
+
+        }
+        return null;
+    }
+
     private Optional<User> fetchUser(Integer userId) {
         return usersRepo.findById(userId);
     }

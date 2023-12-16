@@ -149,9 +149,6 @@ public class UserService {
             return userMapper.mapToUserDto(usersRepo.save(user));
         } catch (Exception e) {
 
-            // if (e instanceof DataIntegrityViolationException) {
-
-            // }
             e.printStackTrace();
             throw new RuntimeException("Error saving user: " + e.getMessage());
         }

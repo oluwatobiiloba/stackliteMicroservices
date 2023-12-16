@@ -16,7 +16,7 @@ public class AnswersMapper {
                    .upVotes(answer.getUpVotes())
                    .downVotes(answer.getDownVotes())
                    .answer(answer.getAnswer())
-                   .question(mapQuestion(answer.getQuestion()))
+                   .questionId(answer.getQuestionId())
                    .user(mapUser(answer.getUser()))
                    .build();
        }catch(Exception e){
@@ -35,12 +35,12 @@ public class AnswersMapper {
     }
 
 
-    private static Question mapQuestion(Question question){
-        if (question == null) return null;
-        return Question.builder()
-                .id(question.getId())
-                .user(mapUser(question.getUser()))
-                .question(question.getQuestion())
-                .build();
-    }
+//    private static Question mapQuestion(Question question){
+//        if (question == null) return null;
+//        return Question.builder()
+//                .id(question.getId())
+//                .user(mapUser(question.getUser()))
+//                .question(question.getQuestion())
+//                .build();
+//    }
 }

@@ -6,6 +6,7 @@ import com.user.service.dto.UserRegistrationDto;
 import com.user.service.dto.UserRespDto;
 import com.user.service.handlers.ResponseHandler;
 import com.user.service.service.UserService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,10 +39,19 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
+    @CircuitBreaker(name = "user-service", fallbackMethod = "createUserFallback")
     public ResponseEntity<String> createUser(@RequestBody(required = true) UserRegistrationDto userRegDto) {
-
-        UserRespDto createdUser = userService.createUser(userRegDto);
-        return responseHandler.sendResponse(createdUser, HttpStatus.CREATED, null, null, "Successful");
+        try {
+            UserRespDto createdUser = userService.createUser(userRegDto);
+            return responseHandler.sendResponse(createdUser, HttpStatus.CREATED, null, null, "Successful");
+        } catch (Exception e) {
+            throw e;
+        }
     }
+
+    public ResponseEntity<String> createUserFallback(UserRegistrationDto userRegDto, Throwable t) {
+        return responseHandler.sendResponse(null, HttpStatus.INTERNAL_SERVER_ERROR, null, null, "Fallback: Unable to create user");
+    }
+
 
 }

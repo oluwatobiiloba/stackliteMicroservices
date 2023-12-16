@@ -19,6 +19,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -54,15 +55,13 @@ public class Answer {
     @Column(name = "upvotes", columnDefinition = "DEFAULT 0")
     private Integer upVotes;
 
+    @NotNull
+    @Column(name = "questionId")
+    private Integer questionId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
     private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    // @JsonIgnoreProperties("question")
-    @JsonBackReference
-    @JoinColumn(name = "questionId", referencedColumnName = "id", nullable = false)
-    private Question question;
 
     @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;

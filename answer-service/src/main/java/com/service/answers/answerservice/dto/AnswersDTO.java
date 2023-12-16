@@ -1,7 +1,6 @@
 package com.service.answers.answerservice.dto;
 
 import com.service.answers.answerservice.model.Comment;
-import com.service.answers.answerservice.model.Question;
 import com.service.answers.answerservice.model.User;
 import com.service.answers.answerservice.model.Voter;
 import lombok.*;
@@ -32,7 +31,7 @@ public class AnswersDTO {
 
     private User user;
 
-    private Question question;
+    private Integer questionId;
 
     private List<Comment> comments;
 
